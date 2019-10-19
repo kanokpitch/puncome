@@ -3,12 +3,15 @@
 <head>
     <meta charset="utf-8">
     <title>Puncome Search form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/p-style.css">
 </head>
 
 <body>
     <div class="p-top-box">
-        <div class="p-icon"></div>
+        <div class="p-icon">
+            <img src="images/spiderman.jpg" alt="">
+        </div>
         <div class="p-content">
             <p class="p-title">THE PUNCOME TEXT EDITOR</p>
             <p class="p-desc">CAN YOU EXPLAIN A HARD IDEA USING ONLY THE TEN HUNDRED MOST USED WORDS? IT'S NOT VERY EASY. TYPE IN THE BOX TO TRY IT OUT.</p>
@@ -17,8 +20,60 @@
     <div class="p-input-box">
         <div class="p-blank"></div>
         <div class="p-text">
-            <textarea name="p_input" id="p_input"></textarea>
+            <textarea name="p_input" id="p_input" onkeyup="copyTextToPreview()"></textarea>
+        </div>
+    </div>
+    <div class="p-preview-box">
+        <div class="p-blank"></div>
+        <div class="preview-cover">
+            <div class="preview" id="p_preview"></div>
         </div>
     </div>
 </body>
+<script>
+    function copyTextToPreview() {
+        let resultText = '';
+        const hardList = ['ทดสอบ', 'โปรแกรม', 'test', 'dream', 'express'];
+        let sentence = document.getElementById("p_input").value;
+        let preview = document.getElementById("p_preview");
+
+        preview.innerHTML = sentence;
+
+        sentence = sentence.trim();
+
+        if (sentence) {
+            const arrText = sentence.split(' ');
+            let n = false;
+            let eachWord = '';
+            const arrWord = [];
+
+            if (arrText.length > 1) {
+                for(let i = 0; i < arrText.length; i++) {
+                    eachWord = arrText[i];
+                    console.log(eachWord);
+                    n = hardList.includes(eachWord.toLowerCase());
+                    if (n) {
+                        arrWord.push('<span class="under-error">' + eachWord + '</span>');
+                    } else {
+                        arrWord.push(eachWord);
+                    }
+                }
+
+                resultText = arrWord.join(' ');
+            } else {
+                n = hardList.includes(sentence);
+                if (n) {
+                    arrWord.push('<span class="under-error">' + sentence + '</span>');
+                } else {
+                    arrWord.push(sentence);
+                }
+                
+                resultText = arrWord.join(' ');
+            }
+
+            preview.innerHTML = resultText;
+        }
+
+    }
+</script>
 </html>
